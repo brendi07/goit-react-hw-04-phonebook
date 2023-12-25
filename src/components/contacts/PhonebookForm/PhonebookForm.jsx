@@ -1,4 +1,4 @@
-import { Component } from 'react';
+import { useState } from 'react';
 import {
   PhonebookForm,
   PhonebookLabel,
@@ -6,61 +6,48 @@ import {
   PhonebookButton,
 } from './PhonebookForm.styled';
 
-class Phonebook extends Component {
-  state = {
-    name: '',
-    number: '',
-  };
+const Phonebook = ({addNewContact}) => {
+const [name, setName] = useState("")
+  const [number, setNumber] = useState()
+  
+  const handleSubmit = e => {
+         e.preventDefault();
+        addNewContact({name, number});
 
-  handleSubmit = e => {
-    e.preventDefault();
-    this.props.addNewContact(this.state);
-    this.setState({ name: '', number: '' });
+     setName("");
+     setNumber("")
   };
-
-  handleChange = e => {
+  
+   const  handleChange = e => {
     const { name, value } = e.target;
-    this.setState({ [name]: value });
+       if (name === "name") setName(value)
+       else if(name==="number") setNumber(value)
+       
   };
 
-  render() {
-    const { name, number } = this.state;
-
-    return (
-      <PhonebookForm onSubmit={this.handleSubmit}>
-        <PhonebookLabel>
-          Name:
-          <PhonebookInput
-            type="text"
-            name="name"
-            value={name}
-            onChange={this.handleChange}
-          />
-        </PhonebookLabel>
-        <PhonebookLabel>
-          Number:
-          <PhonebookInput
-            type="text"
-            name="number"
-            value={number}
-            onChange={this.handleChange}
-          />
-        </PhonebookLabel>
-        <PhonebookButton type="submit">Add Contact</PhonebookButton>
-      </PhonebookForm>
-    );
-  }
-}
-
-// const Phonebook = ({ handleSubmit, handleChange }) => (
-//   <form onSubmit={handleSubmit}>
-//     <h2>Phonebook</h2>
-//     <h3>Name</h3>
-//     <input type="text" name="name" required onChange={handleChange} />
-//     <h3>Number</h3>
-//         <input type="tel" name="number" onChange={handleChange}></input>
-//     <button type="submit">Add contact</button>
-//   </form>
-// );
+     return (
+       <PhonebookForm onSubmit={handleSubmit}>
+         <PhonebookLabel>
+           Name:
+           <PhonebookInput
+             type="text"
+             name="name"
+             value={name}
+             onChange={handleChange}
+           />
+         </PhonebookLabel>
+         <PhonebookLabel>
+           Number:
+           <PhonebookInput
+             type="text"
+             name="number"
+             value={number}
+             onChange={handleChange}
+           />
+         </PhonebookLabel>
+         <PhonebookButton type="submit">Add Contact</PhonebookButton>
+       </PhonebookForm>
+     );
+   };
 
 export default Phonebook;
