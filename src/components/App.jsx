@@ -6,13 +6,11 @@ import Filter from './contacts/Filter/Filter';
 import { nanoid } from 'nanoid';
 
 const App = () => {
-  const [contacts, setContacts] = useState([]);
+   const [contacts, setContacts] = useState(() => {
+     const localData = localStorage.getItem('contacts');
+     return localData ? JSON.parse(localData) : [];
+   });
   const [filter, setFilter] = useState("");
-
-  useEffect(() => {
-    const localData = localStorage.getItem('contacts');
-    if (localData) setContacts(JSON.parse(localData));
-  }, []);
 
   useEffect(() => {
       localStorage.setItem('contacts', JSON.stringify(contacts));
